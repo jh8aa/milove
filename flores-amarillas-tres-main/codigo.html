@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Código Secreto</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#000;
+    color:white;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    text-align:center;
+}
+
+#countdown{
+    position:absolute;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:22px;
+}
+
+.code-inputs{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    margin-bottom:15px;
+}
+
+.code-inputs input{
+    width:60px;
+    height:60px;
+    border:3px solid #aaa;
+    border-radius:8px;
+    background:transparent;
+    color:white;
+    text-align:center;
+    font-size:24px;
+}
+
+.message{
+    margin-bottom:25px;
+    color:#cfcfcf;
+}
+
+.btn{
+    padding:12px 40px;
+    font-size:18px;
+    background:black;
+    color:white;
+    border:2px solid white;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.help-icon{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    width:55px;
+    cursor:pointer;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    background:#d8d8d8;
+    color:#444;
+    width:80%;
+    max-width:700px;
+    padding:30px;
+    border-radius:25px;
+    position:relative;
+    line-height:1.6;
+}
+
+.close{
+    position:absolute;
+    right:20px;
+    top:10px;
+    font-size:30px;
+    cursor:pointer;
+}
+
+.modal h3{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.link-pista{
+    color:#005eff;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="countdown"></div>
+
+<div class="container">
+
+    <div class="code-inputs">
+        <input maxlength="1">
+        <input maxlength="1">
+        <input maxlength="1">
+        <input maxlength="1">
+        <input maxlength="1">
+        <input maxlength="1">
+    </div>
+
+    <div class="message">
+        Para acceder al detalle primero debes descubrir la clave
+    </div>
+
+    <button class="btn" onclick="verificarCodigo()">
+        ACCEDER
+    </button>
+
+</div>
+
+<img src="img/icon-img1.png" class="help-icon" onclick="abrirModal()">
+
+<div class="modal" id="modal">
+    <div class="modal-content">
+
+        <span class="close" onclick="cerrarModal()">×</span>
+
+        <h3>PISTAS DEL CÓDIGO SECRETO</h3>
+
+        <p>
+            <strong>1.</strong> Es un número muy importante para tu pareja.
+            Está relacionado con algo que ama profundamente y que anhela que suceda algún día.
+        </p>
+
+        <p>
+            <strong>2.</strong> Es el resultado de restar el día al mes de una fecha muy especial para tu pareja que ocurrirá en el futuro.
+        </p>
+
+        <p>
+            <strong>3.</strong> Es el número de la camiseta de su jugador favorito de la Selección Colombia durante este mundial.
+        </p>
+
+        <p>
+            <strong>4.</strong> Es el último dígito de la edad en la que tu pareja conoció al amor de su vida.
+        </p>
+
+        <p>
+            <strong>5.</strong> Es un número relacionado con el nombre de tu pareja.
+        </p>
+
+        <p>
+            <strong>6.</strong>
+            Para descubrir este último dígito
+            <a class="link-pista"
+               href="https://www.fotogramas.es/series-tv-noticias/g40113604/mejores-series-historia/"
+               target="_blank">
+               haz clic aquí
+            </a>.
+            Dentro del enlace busca su serie favorita y toma el último número asociado a ella.
+        </p>
+
+        <br>
+
+        <p>
+            Solo tienes derecho a pedir una pista adicional al anfitrión, y esta únicamente podrá ser respondida con una sola palabra.
+        </p>
+
+    </div>
+</div>
+
+<script>
+
+const inputs = document.querySelectorAll("input");
+
+inputs.forEach((input,index)=>{
+
+    input.addEventListener("input",()=>{
+
+        if(input.value.length===1 && index<5){
+            inputs[index+1].focus();
+        }
+
+    });
+
+});
+
+function verificarCodigo(){
+
+    let codigo = "";
+
+    inputs.forEach(input=>{
+        codigo += input.value;
+    });
+
+    if(codigo === "667984"){
+        window.location.href = "flower.html";
+    }else{
+        alert("Código incorrecto");
+    }
+
+}
+
+function abrirModal(){
+    document.getElementById("modal").style.display="flex";
+}
+
+function cerrarModal(){
+    document.getElementById("modal").style.display="none";
+}
+
+const fechaObjetivo = new Date("2026-06-19T23:59:59");
+
+function actualizarContador(){
+
+    const ahora = new Date();
+
+    const diferencia = fechaObjetivo - ahora;
+
+    if(diferencia <= 0){
+
+        document.getElementById("countdown").innerHTML="00:00:00";
+        return;
+
+    }
+
+    const horas = Math.floor(diferencia/(1000*60*60));
+    const minutos = Math.floor((diferencia%(1000*60*60))/(1000*60));
+    const segundos = Math.floor((diferencia%(1000*60))/1000);
+
+    document.getElementById("countdown").innerHTML=
+        `${String(horas).padStart(2,"0")}:`+
+        `${String(minutos).padStart(2,"0")}:`+
+        `${String(segundos).padStart(2,"0")}`;
+
+}
+
+setInterval(actualizarContador,1000);
+actualizarContador();
+
+</script>
+
+</body>
+</html>
